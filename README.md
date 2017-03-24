@@ -1,6 +1,12 @@
 # cocoascript-class
 Lets you create real ObjC classes in cocoascript so you can implement delegates, subclass builtin types, etc
 
+## Installation
+
+In your plugin, assuming you're already using an ES6 build toolchain and either `npm` or `yarn`
+
+`npm install --save cocoascript-class` or `yarn add cocoascript-class`
+
 
 ## Usage
 
