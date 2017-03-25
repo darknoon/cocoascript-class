@@ -1,3 +1,5 @@
+const objc_super_typeEncoding = '{objc_super="receiver"@"super_class"#}';
+
 // You can store this to call your function. this must be bound to the current instance.
 export function SuperCall(selector, argTypes, returnType) {
   const func = CFunc("objc_msgSendSuper", [{type: '^' + objc_super_typeEncoding}, {type: ":"}, ...argTypes], returnType);
@@ -25,12 +27,11 @@ function makeStruct(def) {
   return structure;
 }
 
-const objc_super_typeEncoding = '{objc_super="receiver"@"super_class"#}';
 function make_objc_super(self, cls) {
   return makeStruct({
     objc_super:{
-        receiver:self,
-        super_class: cls,
+      receiver:self,
+      super_class: cls,
     },
   });
 }
@@ -75,16 +76,16 @@ function addStructToBridgeSupport(key, structDef) {
   // OK, so this is probably the nastiest hack in this file.
   // We go modify MOBridgeSupportController behind its back and use kvc to add our own definition
   // There isn't another API for this though. So the only other way would be to make a real bridgesupport file.
-  const def = MOBridgeSupportStruct.alloc().init();
-  setKeys(def, {
-     name: key,
-     type: structDef.type,
-  });
-  log("adding def: " + def);
-
   const symbols = MOBridgeSupportController.sharedController().valueForKey('symbols');
   if (!symbols) throw Error("Something has changed within bridge support so we can't add our definitions");
-  symbols[NSString.stringWithString(key)] = def;
+  // If someone already added this definition, don't re-register it.
+  if (symbols[key] !== null) return;
+  const def = MOBridgeSupportStruct.alloc().init();
+  setKeys(def, {
+    name: key,
+    type: structDef.type,
+  });
+  symbols[key] = def;
 };
 
 // This assumes the ivar is an object type. Return value is pretty useless.
