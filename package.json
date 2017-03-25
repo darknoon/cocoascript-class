@@ -8,6 +8,9 @@
   "scripts": {
     "build": "babel src -d lib"
   },
+  "files": [
+    "lib"
+  ],
   "license": "MIT",
   "devDependencies": {
     "babel": "^6.23.0",
