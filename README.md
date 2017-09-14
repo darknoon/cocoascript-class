@@ -1,4 +1,7 @@
-# cocoascript-class
+# cocoascript-class-babel-safe
+
+**This is a (hopefully temporary) fork of `cocoascript-class` that can be safely transpiled to ES5.**
+
 Lets you create real ObjC classes in cocoascript so you can implement delegates, subclass builtin types, etc
 
 ## Installation

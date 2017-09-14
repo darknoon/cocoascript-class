@@ -1,17 +1,19 @@
 {
-  "name": "cocoascript-class",
-  "version": "0.1.0",
-  "description": "Lets you create real ObjC classes in cocoascript so you can implement delegates, subclass builtin types, etc",
+  "name": "cocoascript-class-babel-safe",
+  "version": "0.1.1",
+  "description": "A fork of cocoascript-class that can be safely transpiled to ES5",
   "main": "lib/index.js",
-  "repository": "https://github.com/darknoon/cocoascript-class",
+  "repository": "https://github.com/atlassian/cocoascript-class",
   "author": "Andrew Pouliot <andrew@darknoon.com>",
+  "contributors": [
+    "Tim Pettersen <tim@atlassian.com>"
+  ],
   "scripts": {
     "build": "babel src -d lib"
   },
   "license": "MIT",
   "devDependencies": {
-    "babel": "^6.23.0",
-    "babel-cli": "^6.24.0",
+    "babel-cli": "^6.26.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.0"
   }
 }
