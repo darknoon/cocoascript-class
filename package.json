@@ -1,6 +1,6 @@
 {
   "name": "cocoascript-class-babel-safe",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A fork of cocoascript-class that can be safely transpiled to ES5",
   "main": "lib/index.js",
   "repository": "https://github.com/atlassian/cocoascript-class",
