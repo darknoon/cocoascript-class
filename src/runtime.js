@@ -3,10 +3,13 @@ const objc_super_typeEncoding = '{objc_super="receiver"@"super_class"#}';
 // You can store this to call your function. this must be bound to the current instance.
 export function SuperCall(selector, argTypes, returnType) {
   const func = CFunc("objc_msgSendSuper", [{type: '^' + objc_super_typeEncoding}, {type: ":"}, ...argTypes], returnType);
-  return function(...args) {
+  return function() {
     const struct = make_objc_super(this, this.superclass());
     const structPtr = MOPointer.alloc().initWithValue_(struct);
-    return func(structPtr, selector, ...args);
+    const params = ['structPtr', 'selector'].concat(
+      [].slice.apply(arguments).map((val, i) => `arguments[${i}]`)
+    )
+    return eval(`func(${params.join(', ')})`)
   };
 }
 
