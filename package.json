@@ -15,6 +15,7 @@
   "devDependencies": {
     "babel": "^6.23.0",
     "babel-cli": "^6.24.0",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.0"
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.0",
+    "babel-preset-airbnb": "^2.2.3"
   }
 }
