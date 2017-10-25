@@ -11,7 +11,8 @@ const SuperInit = SuperCall(NSStringFromSelector("init"), [], {type:"@"});
 export default function ObjCClass(defn) {
   const superclass = defn.superclass || NSObject;
   const className = (defn.className || defn.classname || "ObjCClass") + NSUUID.UUID().UUIDString()
-  const reserved = new Set(['className', 'classname','superclass']);
+  const classMethods = (defn.classMethods || defn.classmethods || {})
+  const reserved = new Set(['className', 'classname','superclass', 'classMethods', 'classmethods']);
   var cls = MOClassDescription.allocateDescriptionForClassWithName_superclass_(className, superclass)
   // Add each handler to the class description
   const ivars = [];
@@ -23,6 +24,14 @@ export default function ObjCClass(defn) {
     } else if (!reserved.has(key)) {
        ivars.push(key);
        cls.addInstanceVariableWithName_typeEncoding(key, "@");
+    }
+  }
+  // Add each class method to the class description
+  for(var key in classMethods) {
+    const v = classMethods[key]
+    if (typeof v == 'function') {
+      var selector = NSSelectorFromString(key)
+      cls.addClassMethodWithSelector_function_(selector, v);
     }
   }
 
@@ -48,4 +57,3 @@ function getIvar(obj, name) {
   object_getInstanceVariable(obj, name, retPtr);
   return retPtr.value().retain().autorelease();
 }
-
