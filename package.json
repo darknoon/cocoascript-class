@@ -1,6 +1,6 @@
 {
   "name": "cocoascript-class",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Lets you create real ObjC classes in cocoascript so you can implement delegates, subclass builtin types, etc",
   "main": "lib/index.js",
   "repository": "https://github.com/darknoon/cocoascript-class",
