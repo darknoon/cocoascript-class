@@ -81,4 +81,40 @@ const obj = HasDescriptionClass.new();
 log(obj); // calls description to become a string
 ````
 
+### Setting your superclass
 
+The `superclass` property lets you set your superclass, equivalent to `@interface myClass : superclass`. Here, we subclass `NSView` and create a square view:
+
+````js
+import ObjCClass from 'cocoascript-class'
+
+const ViewClass = new ObjCClass({
+  superclass: NSView
+});
+
+const view = ViewClass.new();
+// call inherited methods
+view.setFrame(NSMakeRect(0, 0, 100, 100));
+````
+
+If not set, the superclass is `NSObject`.
+
+### Adding class methods
+
+The `classMethods` property lets you add class methods similar to how instance methods are added. Here is an example:
+
+````js
+import ObjCClass from 'cocoascript-class'
+
+const HasClassMethodsClass = new ObjCClass({
+  classMethods: {
+    test() {
+      log("test");
+    }
+  }
+});
+
+// call methods on the class
+[HasClassMethodsClass test];
+HasClassMethodsClass.test();
+````
