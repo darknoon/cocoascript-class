@@ -3,10 +3,19 @@ const objc_super_typeEncoding = '{objc_super="receiver"@"super_class"#}';
 // You can store this to call your function. this must be bound to the current instance.
 export function SuperCall(selector, argTypes, returnType) {
   const func = CFunc("objc_msgSendSuper", [{type: '^' + objc_super_typeEncoding}, {type: ":"}, ...argTypes], returnType);
-  return function(...args) {
+  return function () {
     const struct = make_objc_super(this, this.superclass());
     const structPtr = MOPointer.alloc().initWithValue_(struct);
-    return func(structPtr, selector, ...args);
+
+    // func.apply(void 0, ...args) doesn't work with some
+    // special functions in older JSC versions (eg. OSX 10.11)
+    //  - use Function instead of eval
+    //    see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval
+    //  - beware of arguments gotchas
+    //    see https://github.com/petkaantonov/bluebird/wiki/Optimization-killers#3-managing-arguments
+    const args = [structPtr, selector]; [].push.apply(args, arguments);
+    const argsStr = args.map((_, i)=> `args[${i}]`).join(',');
+    return Function(`"use strict";return function (fn, args) { return fn(${argsStr}) }`)()(func, args);
   };
 }
 
